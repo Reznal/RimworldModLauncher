@@ -1,0 +1,104 @@
+<Window x:Class="RimWorldLauncher.Windows.LogsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:RimWorldLauncher.Controls"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="Logs" 
+        Height="500" 
+        Width="700"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="{Binding AlwaysOnTop}"
+        WindowStartupLocation="CenterScreen">
+
+    <Border BorderBrush="{DynamicResource StandardBorderBrush}" 
+            BorderThickness="1"
+            Background="{DynamicResource ApplicationBackgroundBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Custom Toolbar -->
+            <controls:CustomToolbar Grid.Row="0">
+                <controls:CustomToolbar.LeftContent>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button Command="{Binding ClearCommand}" Style="{StaticResource ToolbarButtonStyle}" BorderThickness="0, 0, 1, 0" Content="&#xF2ED;" Foreground="Red"/>
+                    </StackPanel>
+                </controls:CustomToolbar.LeftContent>
+                
+                <controls:CustomToolbar.CenterContent>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,0">
+                            <CheckBox IsChecked="{Binding ShowDebug}"   Style="{StaticResource CheckboxIconStyle}" Content="&#xF188;" Foreground="Gray" ToolTip="Debug"/>
+                            <CheckBox IsChecked="{Binding ShowInfo}"    Style="{StaticResource CheckboxIconStyle}" Content="&#xF05A;" Foreground="White" ToolTip="Info"/>
+                            <CheckBox IsChecked="{Binding ShowWarning}" Style="{StaticResource CheckboxIconStyle}" Content="&#xF071;" Foreground="Yellow" ToolTip="Warning"/>
+                            <CheckBox IsChecked="{Binding ShowError}"   Style="{StaticResource CheckboxIconStyle}" Content="&#xF06A;" Foreground="Red" ToolTip="Error"/>
+                        </StackPanel>
+                        
+                        <ui:Button Command="{Binding ClearFilterCommand}" Style="{StaticResource ToolbarButtonStyle}" Margin="5,0" Content="&#xF05E;" Foreground="DodgerBlue" BorderThickness="1, 0"/>
+                    </StackPanel>
+                </controls:CustomToolbar.CenterContent>
+                
+                <controls:CustomToolbar.RightContent>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button Command="{Binding MaximizeCommand}" Style="{StaticResource ToolbarButtonStyle}" BorderThickness="1, 0, 0, 0" Content="&#xF2D2;" Foreground="Gray"/>
+                        <ui:Button Command="{Binding CloseCommand}" Style="{StaticResource ToolbarButtonStyle}" BorderThickness="1, 0, 0, 0" Content="&#xF00D;" Foreground="Red"/>
+                    </StackPanel>
+                </controls:CustomToolbar.RightContent>
+            </controls:CustomToolbar>
+
+            <!-- Log List -->
+            <ListBox Grid.Row="1"  ItemsSource="{Binding FilteredLogs}" Background="{DynamicResource CardBackgroundBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" FontFamily="Consolas" FontSize="12" SelectionMode="Extended" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Padding="0,0,18,0">
+                <ListBox.Resources>
+                    <Style TargetType="ScrollBar" x:Key="HorizontalLogScrollBar">
+                        <Setter Property="Orientation" Value="Horizontal"/>
+                        <Setter Property="Height" Value="16"/>
+                    </Style>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="MinHeight" Value="0"/>
+                        <Setter Property="Height" Value="Auto"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayMessage}" Foreground="{Binding Level, Converter={StaticResource LogLevelToColorConverter}}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Invisible Resize Borders -->
+            <!-- Top Left Corner -->
+            <Rectangle x:Name="TopLeftResize" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="6" Height="6" Fill="Transparent" Cursor="SizeNWSE" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000"/>
+
+            <!-- Top Edge -->
+            <Rectangle x:Name="TopResize" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="6" Fill="Transparent" Cursor="SizeNS" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000" Margin="6,0,6,0"/>
+
+            <!-- Top Right Corner -->
+            <Rectangle x:Name="TopRightResize" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="6" Height="6" Fill="Transparent" Cursor="SizeNESW" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000"/>
+
+            <!-- Right Edge -->
+            <Rectangle x:Name="RightResize" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="6" Fill="Transparent" Cursor="SizeWE" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000" Margin="0,6,0,6"/>
+
+            <!-- Bottom Right Corner -->
+            <Rectangle x:Name="BottomRightResize" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="6" Height="6" Fill="Transparent" Cursor="SizeNWSE" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000"/>
+
+            <!-- Bottom Edge -->
+            <Rectangle x:Name="BottomResize" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="6" Fill="Transparent" Cursor="SizeNS" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000" Margin="6,0,6,0"/>
+
+            <!-- Bottom Left Corner -->
+            <Rectangle x:Name="BottomLeftResize" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="6" Height="6" Fill="Transparent" Cursor="SizeNESW" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000"/>
+
+            <!-- Left Edge -->
+            <Rectangle x:Name="LeftResize" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="6" Fill="Transparent" Cursor="SizeWE" MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown" Panel.ZIndex="1000" Margin="0,6,0,6"/>
+        </Grid>
+    </Border>
+</Window> 

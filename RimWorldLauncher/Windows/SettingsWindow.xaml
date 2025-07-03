@@ -1,0 +1,105 @@
+<Window x:Class="RimWorldLauncher.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:RimWorldLauncher.Controls"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="Settings" 
+        Height="170" 
+        Width="400"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        Topmost="{Binding AlwaysOnTop}"
+        WindowStartupLocation="CenterScreen">
+
+    <Border BorderBrush="{DynamicResource StandardBorderBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Custom Toolbar -->
+            <controls:CustomToolbar Grid.Row="0">
+                <controls:CustomToolbar.LeftContent>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Empty for now -->
+                    </StackPanel>
+                </controls:CustomToolbar.LeftContent>
+
+                <controls:CustomToolbar.CenterContent>
+                    <TextBlock Text="Settings" 
+                               FontWeight="Bold" 
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                </controls:CustomToolbar.CenterContent>
+
+                <controls:CustomToolbar.RightContent>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button Command="{Binding SaveCommand}" Style="{StaticResource ToolbarButtonStyle}" BorderThickness="1, 0, 0, 0" Content="&#xF0C7;" Foreground="DodgerBlue"/>
+                        <ui:Button Command="{Binding CloseCommand}" Style="{StaticResource ToolbarButtonStyle}" BorderThickness="1, 0, 0, 0" Content="&#xF00D;" Foreground="Red"/>
+                    </StackPanel>
+                </controls:CustomToolbar.RightContent>
+            </controls:CustomToolbar>
+
+            <!-- Settings Content -->
+            <Grid Grid.Row="1" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Game Path -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Game Path:"/>
+                    <TextBox Grid.Column="1" Text="{Binding GamePath}" IsReadOnly="True"/>
+                    <ui:Button Grid.Column="2"  Command="{Binding BrowseGamePathCommand}" Style="{StaticResource IconButtonStyle}" Content="&#xF07B;" Foreground="Orange"/>
+                </Grid>
+
+                <!-- Mod Path -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Mod Path:"/>
+                    <TextBox Grid.Column="1" Text="{Binding ModPath}" IsReadOnly="True"/>
+                    <ui:Button Grid.Column="2"  Command="{Binding BrowseModPathCommand}" Style="{StaticResource IconButtonStyle}" Content="&#xF07B;" Foreground="Orange"/>
+                </Grid>
+
+                <!-- Launch Arguments -->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Launch Args:"/>
+                    <TextBox Grid.Column="1" Text="{Binding LaunchArguments}"/>
+                </Grid>
+
+                <!-- Always On Top -->
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Always On Top:"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding AlwaysOnTop}" VerticalAlignment="Center" Padding="5" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window> 
