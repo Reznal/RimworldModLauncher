@@ -117,6 +117,17 @@
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0"/>
             </Style>
+
+            <!-- Tooltip -->
+            <Style TargetType="ToolTip">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="Background" Value="{DynamicResource ApplicationBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource StandardBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="4"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application> 
