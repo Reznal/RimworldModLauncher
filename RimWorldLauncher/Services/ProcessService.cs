@@ -11,8 +11,14 @@ namespace RimWorldLauncher.Services
     {
         private readonly List<ProcessInfo> _runningProcesses = new();
         private readonly object _lockObject = new();
+        private readonly ISettingsService _settingsService;
 
         public event EventHandler<IEnumerable<ProcessInfo>>? ProcessesChanged;
+
+        public ProcessService(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
 
         public IEnumerable<ProcessInfo> RunningProcesses
         {
@@ -42,6 +48,15 @@ namespace RimWorldLauncher.Services
             {
                 try
                 {
+                    if (_settingsService.Settings.LogAllInstances)
+                    {
+                        string argument = $"-logfile Logs/Player-{i}.log";
+                        if (arguments.Length > 0)
+                            arguments += argument;
+                        else
+                            arguments = argument;
+                    }
+
                     var startInfo = new ProcessStartInfo
                     {
                         FileName = gamePath,
@@ -62,7 +77,7 @@ namespace RimWorldLauncher.Services
                 }
                 catch (Exception)
                 {
-                    // Log error
+                    // Clean exit
                 }
             }
         }
@@ -79,7 +94,7 @@ namespace RimWorldLauncher.Services
                     }
                     catch (Exception)
                     {
-                        // Log error
+                        // Clean exit
                     }
                 }
                 _runningProcesses.Clear();

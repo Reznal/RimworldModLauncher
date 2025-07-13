@@ -17,6 +17,7 @@ namespace RimWorldLauncher.ViewModels
         private string _modPath = string.Empty;
         private string _launchArguments = string.Empty;
         private bool _alwaysOnTop = false;
+        private bool _logAllInstances = true;
 
         public SettingsViewModel(ISettingsService settingsService, Window window)
         {
@@ -53,6 +54,12 @@ namespace RimWorldLauncher.ViewModels
         {
             get => _alwaysOnTop;
             set => SetProperty(ref _alwaysOnTop, value);
+        }
+
+        public bool LogAllInstances
+        {
+            get => _logAllInstances;
+            set => SetProperty(ref _logAllInstances, value);
         }
 
         public ICommand BrowseGamePathCommand { get; }
@@ -111,6 +118,7 @@ namespace RimWorldLauncher.ViewModels
             ModPath = _settingsService.Settings.ModPath;
             LaunchArguments = _settingsService.Settings.LaunchArguments;
             AlwaysOnTop = _settingsService.Settings.AlwaysOnTop;
+            LogAllInstances = _settingsService.Settings.LogAllInstances;
         }
 
         private async Task SaveAsync()
@@ -119,6 +127,7 @@ namespace RimWorldLauncher.ViewModels
             _settingsService.Settings.ModPath = ModPath;
             _settingsService.Settings.LaunchArguments = LaunchArguments;
             _settingsService.Settings.AlwaysOnTop = AlwaysOnTop;
+            _settingsService.Settings.LogAllInstances = LogAllInstances;
 
             await _settingsService.SaveSettingsAsync();
         }

@@ -47,13 +47,13 @@
             <!-- Settings Content -->
             <Grid Grid.Row="1" Margin="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Game Path -->
@@ -95,9 +95,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Always On Top:"/>
-                    <CheckBox Grid.Column="1" IsChecked="{Binding AlwaysOnTop}" VerticalAlignment="Center" Padding="5" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding AlwaysOnTop}" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <Label Grid.Column="2" Content="Log all instances:"/>
+                    <CheckBox Grid.Column="4" IsChecked="{Binding LogAllInstances}" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                 </Grid>
             </Grid>
         </Grid>
