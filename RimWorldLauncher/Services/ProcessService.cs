@@ -48,19 +48,20 @@ namespace RimWorldLauncher.Services
             {
                 try
                 {
+                    string localArguments = arguments;
                     if (_settingsService.Settings.LogAllInstances)
                     {
-                        string argument = $"-logfile Logs/Player-{i}.log";
-                        if (arguments.Length > 0)
-                            arguments += argument;
+                        string argument = $" -logfile Logs/Player-{i}.log";
+                        if (localArguments.Length > 0)
+                            localArguments += argument;
                         else
-                            arguments = argument;
+                            localArguments = argument;
                     }
 
                     var startInfo = new ProcessStartInfo
                     {
                         FileName = gamePath,
-                        Arguments = arguments,
+                        Arguments = localArguments,
                         UseShellExecute = true
                     };
 
